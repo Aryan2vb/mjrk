@@ -1,4 +1,5 @@
-const Customer = require('../models/Customer'); // Assuming you're using Mongoose and have a Customer model
+const Customer = require('../models/Customer'); // Assuming you're using Mongoose
+const path = require('path');
 
 // 1. Create a new customer
 const createCustomer = async (req, res) => {
@@ -95,6 +96,26 @@ const generateCustomerCode = async () => {
     }
 };
 
+const createBulkCustomers = async (req, res) => {
+    try {
+        const customersData = req.body; // Array of customer data
+
+        // Generate customer codes and prepare the data
+        const customersWithCode = await Promise.all(customersData.map(async (customerData) => {
+            const customerCode = await generateCustomerCode(); // Generate the next customer code
+            return { ...customerData, customerCode };
+        }));
+
+        // Insert multiple customers at once
+        const insertedCustomers = await Customer.insertMany(customersWithCode);
+
+        // If successfully inserted, respond with the count and inserted data
+        res.status(201).json({ message: `${insertedCustomers.length} customers added successfully`, customers: insertedCustomers });
+    } catch (error) {
+        console.error('Error inserting customers:', error); // Log error for debugging
+        res.status(500).json({ error: 'Failed to add customers', details: error.message });
+    }
+};
 module.exports = {
     createCustomer,
     getAllCustomers,
@@ -102,4 +123,6 @@ module.exports = {
     getCustomerByCode,
     updateCustomer,
     deleteCustomer,
+    createBulkCustomers,
+
 };

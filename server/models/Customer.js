@@ -40,11 +40,9 @@ const customerSchema = new Schema(
         },
         status: {
             type: String,
-            required: true,
         },
         accountType: {
             type: String,
-            required: true,
         },
         dateOfRegistration: {
             type: Date,
@@ -71,6 +69,9 @@ const customerSchema = new Schema(
         updatedAt: {
             type: Date,
             default: Date.now,
+        },
+        profilePicture: {
+            type: String
         },
     },
     { timestamps: true }

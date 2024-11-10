@@ -6,7 +6,8 @@ const {
     getCustomerById,
     getCustomerByCode,
     updateCustomer,
-    deleteCustomer
+    deleteCustomer,
+    createBulkCustomers
 } = require('../controllers/customerController'); // Import the controller methods
 
 // Route to create a new customer
@@ -26,5 +27,7 @@ router.put('/customers/:id', updateCustomer);
 
 // Route to delete a customer by ID
 router.delete('/customers/:id', deleteCustomer);
+
+router.post('/customers/bulk', createBulkCustomers);
 
 module.exports = router;
