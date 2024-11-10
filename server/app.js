@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+// const customerRoutes = require('./routes/customerRoutes');
 const customerRoutes = require('./routes/customerRoutes');
+
 
 dotenv.config();
 
@@ -10,12 +12,14 @@ app.use(express.json());
 
 const dbURI = process.env.MONGO_URI;
 
-mongoose.connect(dbURI)
+mongoose.connect(dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,})
     .then(() => console.log('MongoDB connected successfully'))
     .catch((error) => console.error('MongoDB connection error:', error));
 
 // Use customer routes
-app.use('/customers', customerRoutes);
+app.use('/api', customerRoutes);
 
 // Default route
 app.get('/', (req, res) => {

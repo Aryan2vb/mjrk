@@ -1,27 +1,30 @@
 const express = require('express');
+const router = express.Router();
 const {
     createCustomer,
     getAllCustomers,
     getCustomerById,
-    updateCustomerById,
-    deleteCustomerById,
-} = require('../controllers/customerController');
-
-const router = express.Router();
+    getCustomerByCode,
+    updateCustomer,
+    deleteCustomer
+} = require('../controllers/customerController'); // Import the controller methods
 
 // Route to create a new customer
-router.post('/', createCustomer);
+router.post('/customers', createCustomer);
 
 // Route to get all customers
-router.get('/', getAllCustomers);
+router.get('/customers', getAllCustomers);
 
 // Route to get a single customer by ID
-router.get('/:id', getCustomerById);
+router.get('/customers/:id', getCustomerById);
+
+// Route to get a single customer by customer code
+router.get('/customers/code/:customerCode', getCustomerByCode);
 
 // Route to update a customer by ID
-router.put('/:id', updateCustomerById);
+router.put('/customers/:id', updateCustomer);
 
 // Route to delete a customer by ID
-router.delete('/:id', deleteCustomerById);
+router.delete('/customers/:id', deleteCustomer);
 
 module.exports = router;
