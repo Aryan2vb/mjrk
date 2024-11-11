@@ -18,11 +18,9 @@ if (!dbURI) {
 }
 
 
-mongoose.connect(dbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,})
-    .then(() => console.log('MongoDB connected successfully'))
-    .catch((error) => console.error('MongoDB connection error:', error));
+mongoose.connect(dbURI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
 // Use customer routes
 app.use('/api', customerRoutes);
