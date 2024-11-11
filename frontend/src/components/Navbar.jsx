@@ -45,6 +45,16 @@ const Navbar = () => {
                         </button>
                     )}
 
+                    {/* Customer Data button */}
+                    {isLoggedIn && (
+                        <button
+                            onClick={() => navigate('/customer-data')}
+                            className="bg-[#4962bf] text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition duration-300"
+                        >
+                            Customer Data
+                        </button>
+                    )}
+
                     {!isLoggedIn ? (
                         <button
                             onClick={handleLogin}
