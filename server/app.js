@@ -12,6 +12,10 @@ app.use(express.json());
 app.use(cors());
 
 const dbURI = process.env.MONGO_URI;
+if (!dbURI) {
+    console.error('MONGODB_URI is not defined');
+    process.exit(1); // Exit the app if URI is not set
+}
 
 
 mongoose.connect(dbURI, {
