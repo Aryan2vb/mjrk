@@ -22,7 +22,7 @@ mongoose.connect(dbURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,})
     .then(() => console.log('MongoDB connected successfully'))
-    .catch((error) => console.error('MongoDB connection error:', error));
+    .catch((error) => console.error('MongoDB connection error hai:', error));
 
 // Use customer routes
 app.use('/api', customerRoutes);
