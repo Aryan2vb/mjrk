@@ -8,9 +8,9 @@ const createCustomer = async (req, res) => {
         const customer = new Customer({ ...req.body, customerCode });
 
         await customer.save();
-        res.status(201).json(customer);
+        return res.status(201).json(customer);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create customer' });
+        return res.status(500).json({ error: 'Failed to create customer' });
     }
 };
 
@@ -97,25 +97,31 @@ const generateCustomerCode = async () => {
 };
 
 const createBulkCustomers = async (req, res) => {
-    try {
-        const customersData = req.body; // Array of customer data
+    const customersData = req.body; // Array of customer data
+    let addedCustomers = [];
+    let failedCustomers = [];
 
-        // Generate customer codes and prepare the data
-        const customersWithCode = await Promise.all(customersData.map(async (customerData) => {
-            const customerCode = await generateCustomerCode(); // Generate the next customer code
-            return { ...customerData, customerCode };
-        }));
-
-        // Insert multiple customers at once
-        const insertedCustomers = await Customer.insertMany(customersWithCode);
-
-        // If successfully inserted, respond with the count and inserted data
-        res.status(201).json({ message: `${insertedCustomers.length} customers added successfully`, customers: insertedCustomers });
-    } catch (error) {
-        console.error('Error inserting customers:', error); // Log error for debugging
-        res.status(500).json({ error: 'Failed to add customers', details: error.message });
+    // Iterate over each customer in the array
+    for (let customerData of customersData) {
+        try {
+            // Call the existing `createCustomer` function and push successful results to `addedCustomers`
+            const addedCustomer = await createCustomer({ body: customerData });
+            addedCustomers.push(addedCustomer);
+        } catch (error) {
+            // Add to `failedCustomers` if there's an error with this customer
+            failedCustomers.push({ customer: customerData, error: error.message });
+        }
     }
+
+    // Respond with the result, including successfully added and failed customers
+    res.status(201).json({
+        message: `${addedCustomers.length} customers added successfully`,
+        addedCustomers,
+        failedCustomers,
+    });
 };
+
+
 module.exports = {
     createCustomer,
     getAllCustomers,
