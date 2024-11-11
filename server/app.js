@@ -11,6 +11,10 @@ const app = express();
 app.use(express.json());
 
 const dbURI = process.env.MONGO_URI;
+if (!dbURI) {
+    console.error("Error: MONGODB_URI environment variable is not set.");
+    process.exit(1);
+}
 
 mongoose.connect(dbURI, {
     useNewUrlParser: true,
