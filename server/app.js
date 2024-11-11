@@ -25,6 +25,9 @@ app.use('/api', customerRoutes);
 app.get('/', (req, res) => {
     res.status(200).send('Welcome to Customer Management API!');
 });
+app.get('hello',async (req,res)=>{
+    res.status(200).send('Sab Changa Si');
+})
 
 // Start the server
 const PORT = process.env.PORT || 3000;
