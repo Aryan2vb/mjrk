@@ -11,22 +11,22 @@ const {
 } = require('../controllers/customerController'); // Import the controller methods
 
 // Route to create a new customer
-router.post('/customers', createCustomer);
+router.post('/createcustomer', createCustomer);
 
 // Route to get all customers
-router.get('/customers', getAllCustomers);
+router.get('/getallcustomers', getAllCustomers);
 
 // Route to get a single customer by ID
-router.get('/customers/:id', getCustomerById);
+router.get('/getcustomersbyid/:id', getCustomerById);
 
 // Route to get a single customer by customer code
-router.get('/customers/code/:customerCode', getCustomerByCode);
+router.get('/getcustomersbycode/:customerCode', getCustomerByCode);
 
 // Route to update a customer by ID
-router.put('/customers/:id', updateCustomer);
+router.put('/updatecustomer/:id', updateCustomer);
 
 // Route to delete a customer by ID
-router.delete('/customers/:id', deleteCustomer);
+router.delete('/deletecustomer/:id', deleteCustomer);
 
 router.post('/customers/bulk', createBulkCustomers);
 

@@ -8,7 +8,7 @@ const createCustomer = async (req, res) => {
         const customer = new Customer({ ...req.body, customerCode });
 
         await customer.save();
-        return res.status(201).json(customer);
+        return res.status(201).json({res: 'Succesfully Created Customer'});
     } catch (error) {
         return res.status(500).json({ error: 'Failed to create customer' });
     }
