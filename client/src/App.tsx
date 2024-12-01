@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { LoginForm } from "./components/LoginForm";
-import { Dashboard } from "./components/Dashboard";
+import { Dashboard } from "./components/Dashboard.tsx";
 import { useAuthStore } from "./store/useAuthStore";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {

@@ -20,7 +20,7 @@ export const navigationConfig: NavigationSection[] = [
     items: [
       { icon: LayoutGrid, name: "Dashboard", path: "/dashboard" },
       { icon: Users, name: "Customers", path: "/dashboard/customers" },
-      { icon: Package, name: "Products", path: "/dashboard/products" },
+      { icon: Package, name: "Products.tsx", path: "/dashboard/products" },
       {
         icon: MessagesSquare,
         name: "Bulk Messages",

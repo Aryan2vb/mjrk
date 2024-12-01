@@ -1,20 +1,18 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import {useState} from "react";
+import {Route, Routes} from "react-router-dom";
+import {Menu, X} from "lucide-react";
 import clsx from "clsx";
-import { Sidebar } from "./layout/sidebar";
-import { CustomerList } from "./CustomerList";
-import { AddCustomerForm } from "./AddCustomerForm";
-import { CustomerDetails } from "./CustomerDetails";
-
-const DashboardHome = () => <div>Dashboard</div>;
-const Products = () => <div>Products</div>;
-const Statistics = () => <div>Statistics</div>;
-const History = () => <div>History</div>;
-const Reports = () => <div>Reports</div>;
-const Settings = () => <div>Settings</div>;
-const Help = () => <div>Help</div>;
-const Message = () => <div>Message</div>;
+import {Sidebar} from "./layout/sidebar";
+import {CustomerList} from "./CustomerList";
+import {AddCustomerForm} from "./AddCustomerForm";
+import {DashboardHome} from "../pages/DashboardHome.tsx";
+import {Products} from "../pages/Products.tsx";
+import {Statistics} from "../pages/Statistics.tsx";
+import {History} from "../pages/History.tsx";
+import {Settings} from "../pages/Settings.tsx";
+import {Message} from "../pages/Message.tsx";
+import {Help} from "../pages/Help.tsx";
+import {Reports} from "../pages/Reports.tsx";
 
 export function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
