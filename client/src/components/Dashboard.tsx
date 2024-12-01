@@ -7,14 +7,14 @@ import { CustomerList } from "./CustomerList";
 import { AddCustomerForm } from "./AddCustomerForm";
 import { CustomerDetails } from "./CustomerDetails";
 
-// Placeholder components
-const DashboardHome = () => <div>Dashboard Home</div>;
+const DashboardHome = () => <div>Dashboard</div>;
 const Products = () => <div>Products</div>;
 const Statistics = () => <div>Statistics</div>;
 const History = () => <div>History</div>;
 const Reports = () => <div>Reports</div>;
 const Settings = () => <div>Settings</div>;
 const Help = () => <div>Help</div>;
+const Message = () => <div>Message</div>;
 
 export function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +61,7 @@ export function Dashboard() {
               <Route path="/reports" element={<Reports />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/help" element={<Help />} />
+              <Route path="/bulkmessage" element={<Message />} />
             </Routes>
           </div>
         </main>

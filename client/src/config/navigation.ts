@@ -7,8 +7,12 @@ import {
   FileText,
   Settings,
   HelpCircle,
+  MessageSquare,
+  icons,
+  MessagesSquare,
 } from "lucide-react";
 import { NavigationSection } from "@/types/navigation";
+import path from "path/win32";
 
 export const navigationConfig: NavigationSection[] = [
   {
@@ -17,6 +21,11 @@ export const navigationConfig: NavigationSection[] = [
       { icon: LayoutGrid, name: "Dashboard", path: "/dashboard" },
       { icon: Users, name: "Customers", path: "/dashboard/customers" },
       { icon: Package, name: "Products", path: "/dashboard/products" },
+      {
+        icon: MessagesSquare,
+        name: "Bulk Messages",
+        path: "/dashboard/bulkmessage",
+      },
     ],
   },
   {
