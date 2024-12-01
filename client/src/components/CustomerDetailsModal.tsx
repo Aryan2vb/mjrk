@@ -38,11 +38,11 @@ export default function CustomerDetailsModal({
               <DetailItem label="Address" value={customer.address} />
               <DetailItem
                 label="Primary Contact"
-                value={customer.contactNumber}
+                value={customer.contactPrimary}
               />
               <DetailItem
                 label="Secondary Contact"
-                value={customer.contactNumber2 || "-"}
+                value={customer.contactSecondary || "-"}
               />
               <DetailItem
                 label="Facebook ID"
@@ -51,7 +51,7 @@ export default function CustomerDetailsModal({
               <DetailItem label="Caste" value={customer.caste || "-"} />
               <DetailItem
                 label="Opening Balance"
-                value={`₹${customer.openingBalance}`}
+                value={`₹${customer.openingAccountBalance}`}
               />
               <DetailItem label="Status" value={customer.status} />
               <DetailItem label="Account Type" value={customer.accountType} />

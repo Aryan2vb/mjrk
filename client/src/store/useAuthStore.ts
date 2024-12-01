@@ -1,20 +1,46 @@
-import { create } from 'zustand';
+import { create } from "zustand";
+
+interface User {
+  email: string;
+}
 
 interface AuthState {
   isAuthenticated: boolean;
-  user: { email: string } | null;
+  user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
+const mockUsers = [
+  { email: "mjrk@gmail.com", password: "manu" },
+  { email: "user2@example.com", password: "password2" },
+];
+
 export const useAuthStore = create<AuthState>((set) => ({
-  isAuthenticated: false,
-  user: null,
+  isAuthenticated: Boolean(localStorage.getItem("isAuthenticated")), // Initialize from localStorage
+  user: JSON.parse(localStorage.getItem("user") || "null"),
+
   login: async (email: string, password: string) => {
-    // In a real app, you would make an API call here
-    if (email && password) {
-      set({ isAuthenticated: true, user: { email } });
+    const user = mockUsers.find(
+      (u) => u.email === email && u.password === password,
+    );
+
+    if (!user) {
+      throw new Error("Invalid credentials");
     }
+
+    // Persist state in localStorage
+    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem("user", JSON.stringify({ email }));
+
+    set({ isAuthenticated: true, user: { email } });
   },
-  logout: () => set({ isAuthenticated: false, user: null }),
+
+  logout: () => {
+    // Clear state from localStorage
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("user");
+
+    set({ isAuthenticated: false, user: null });
+  },
 }));
