@@ -73,7 +73,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       </nav>
 
       {/* Logout Button */}
-      <div className="absolute bottom-0 w-full p-4 border-t">
+      <div className="absolute  w-full p-4 border-t">
         <button
           onClick={() => {
             logout();
