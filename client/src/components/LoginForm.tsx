@@ -194,7 +194,7 @@ export function LoginForm() {
             <div className="text-center text-sm text-gray-600">
               <span>Don't have an account? </span>
               <a
-                href="#"
+                href="mailto:aryansoni3105@gmail.com?subject=Request%20for%20Account%20Access&body=Hello,%0D%0A%0D%0AI%20would%20like%20to%20request%20access%20to%20the%20system.%0D%0A%0D%0AThank%20you."
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Contact administrator
