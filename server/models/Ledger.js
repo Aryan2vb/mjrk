@@ -1,37 +1,45 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-// Define the schema for the ledger model
+// Ledger Schema
 const ledgerSchema = new Schema(
   {
     customerCode: {
       type: String,
       required: true,
-      ref: "Customer", // Optional reference to the Customer model
+      ref: "Customer",
+    },
+    transactionDate: {
+      type: Date,
+      default: Date.now,
+    },
+    description: {
+      type: String, // E.g., "Purchase of goods", "Payment received"
+      required: true,
     },
     transactionType: {
       type: String,
-      enum: ["Credit", "Debit"], // Specify allowed transaction types
+      enum: ["credit", "debit"], // Credit increases balance, debit decreases
       required: true,
     },
     amount: {
-      type: Number, // The transaction amount (positive for both Credit and Debit)
+      type: Number,
       required: true,
     },
-    balance: {
-      type: Number, // Running balance after the transaction
+    balanceAfterTransaction: {
+      type: Number, // Calculated field to track balance
+      required: true,
     },
-    note: {
-      type: String, // Optional description or note about the transaction
+    paymentMode: {
+      type: String,
+      enum: ["cash", "bank transfer", "cheque", "other"],
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+    referenceNumber: {
+      type: String, // Optional for tracking bank transfer/cheque details
     },
   },
   { timestamps: true },
 );
 
 const Ledger = mongoose.model("Ledger", ledgerSchema);
-
 module.exports = Ledger;
