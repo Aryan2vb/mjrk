@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import { X } from "lucide-react";
-import { Customer } from "../types/customer";
+import { Customer } from "../../types/customer";
 
 interface CustomerDetailsModalProps {
   customer: Customer;

@@ -9,6 +9,7 @@ import {
   HelpCircle,
   MessageSquare,
   icons,
+  ArrowRightLeft,
   MessagesSquare,
 } from "lucide-react";
 import { NavigationSection } from "@/types/navigation";
@@ -20,7 +21,12 @@ export const navigationConfig: NavigationSection[] = [
     items: [
       { icon: LayoutGrid, name: "Dashboard", path: "/dashboard" },
       { icon: Users, name: "Customers", path: "/dashboard/customers" },
-      { icon: Package, name: "Products.tsx", path: "/dashboard/products" },
+      { icon: Package, name: "Products", path: "/dashboard/products" },
+      {
+        icon: ArrowRightLeft,
+        name: "Transactions",
+        path: "/dashboard/transactions",
+      },
       {
         icon: MessagesSquare,
         name: "Bulk Messages",

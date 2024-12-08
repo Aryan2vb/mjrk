@@ -1,18 +1,20 @@
-import {useState} from "react";
-import {Route, Routes} from "react-router-dom";
-import {Menu, X} from "lucide-react";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import clsx from "clsx";
-import {Sidebar} from "./layout/sidebar";
-import {CustomerList} from "./CustomerList";
-import {AddCustomerForm} from "./AddCustomerForm";
-import {DashboardHome} from "../pages/DashboardHome.tsx";
-import {Products} from "../pages/Products.tsx";
-import {Statistics} from "../pages/Statistics.tsx";
-import {History} from "../pages/History.tsx";
-import {Settings} from "../pages/Settings.tsx";
-import {Message} from "../pages/Message.tsx";
-import {Help} from "../pages/Help.tsx";
-import {Reports} from "../pages/Reports.tsx";
+import { Sidebar } from "./layout/sidebar";
+import { CustomerList } from "../pages/customers/CustomerList.tsx";
+import { AddCustomerForm } from "../pages/customers/AddCustomerForm";
+import { DashboardHome } from "../pages/DashboardHome.tsx";
+import { Products } from "../pages/Products.tsx";
+import { Statistics } from "../pages/Statistics.tsx";
+import { History } from "../pages/History.tsx";
+import { Settings } from "../pages/Settings.tsx";
+import { Message } from "../pages/Message.tsx";
+import { Help } from "../pages/Help.tsx";
+import { Reports } from "../pages/Reports.tsx";
+import { Transactions } from "../pages/transactions/Transactions.tsx";
+import { AddTransactions } from "../pages/transactions/AddTransaction.tsx";
 
 export function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +62,8 @@ export function Dashboard() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/help" element={<Help />} />
               <Route path="/bulkmessage" element={<Message />} />
+              <Route path="/transactions" element={<Transactions />} />
+              <Route path="/transactions/add" element={<AddTransactions />} />
             </Routes>
           </div>
         </main>

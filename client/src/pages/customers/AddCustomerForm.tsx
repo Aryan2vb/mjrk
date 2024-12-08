@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Input } from "./ui/Input";
-import { Customer } from "../types/customer";
+import { Customer } from "../../types/customer";
+import { Input } from "../../components/ui/Input";
 import { ArrowLeft, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
