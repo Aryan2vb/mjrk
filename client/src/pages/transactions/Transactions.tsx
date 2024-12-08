@@ -70,7 +70,9 @@ export const Transactions = () => {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-12">Loading...</div>
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        </div>
       ) : filteredTransactions.length === 0 ? (
         <div className="text-center py-12">No transactions found.</div>
       ) : (
