@@ -93,9 +93,12 @@ export function CustomerList() {
               focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
               bg-white text-gray-700"
           >
+            <option value="customerCode">Filter by Customer Code</option>
             <option value="fullName">Filter by Name</option>
             <option value="address">Filter by Address</option>
             <option value="caste">Filter by Caste</option>
+            <option value="contactNumber">Filter by Phone Number</option>
+            <option value="openingAccountBalance">Filter by Balance</option>
           </select>
         </div>
       </div>

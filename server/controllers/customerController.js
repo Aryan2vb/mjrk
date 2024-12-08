@@ -54,6 +54,27 @@ const getCustomerByCode = async (req, res) => {
 };
 
 // 5. Update a customer by ID
+const updateCustomerByCode = async (req, res) => {
+  const { customerCode } = req.params;
+  try {
+    const updatedCustomer = await Customer.findByIdAndUpdate(
+      customerCode,
+      req.body,
+      {
+        new: true,
+      },
+    );
+    if (updatedCustomer) {
+      res.status(200).json(updatedCustomer);
+    } else {
+      res.status(404).json({ error: "Customer not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update customer" });
+  }
+};
+
+// Update Customer by Code
 const updateCustomer = async (req, res) => {
   const { id } = req.params;
   try {
@@ -69,7 +90,6 @@ const updateCustomer = async (req, res) => {
     res.status(500).json({ error: "Failed to update customer" });
   }
 };
-
 // 6. Delete a customer by ID
 const deleteCustomer = async (req, res) => {
   const { id } = req.params;
@@ -130,6 +150,7 @@ module.exports = {
   getCustomerById,
   getCustomerByCode,
   updateCustomer,
+  updateCustomerByCode,
   deleteCustomer,
   createBulkCustomers,
 };
