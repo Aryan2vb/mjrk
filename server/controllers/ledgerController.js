@@ -72,7 +72,7 @@ const createLedgerEntry = async (req, res) => {
 
 const getLedgerEntries = async (req, res) => {
   try {
-    const customerCode = req.params.customerCode; // Get from params
+    const customerCode = req.query.customerCode; // Get from params
 
     let ledgers;
 

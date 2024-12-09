@@ -8,6 +8,6 @@ const {
 
 router.post("/createledger", createLedgerEntry);
 
-router.get("/getledgers/:customerCode", getLedgerEntries); // Optional parameter
+router.get("/getledgers", getLedgerEntries); // Optional parameter
 
 module.exports = router;

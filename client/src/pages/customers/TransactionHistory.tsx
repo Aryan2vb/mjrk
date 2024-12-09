@@ -19,7 +19,7 @@ export const TransactionHistory = ({
 
       try {
         const response = await axios.get(
-          `https://mjrk.vercel.app/api/getledgers/${customerCode}`,
+          `https://mjrk.vercel.app/api/getledgers?customerCode=${customerCode}`,
         );
         // Sort transactions by date in descending order (latest first)
         const sortedTransactions = response.data.data.sort(
