@@ -24,6 +24,7 @@ export function AddCustomerForm() {
         fullName: data.fullName,
         fathersName: data.fatherName,
         address: data.address,
+        aadharNumber: data.adharNumber || "",
         contactNumber: data.contactPrimary,
         contactNumber2: data.contactSecondary || "",
         facebookId: data.facebookId || "",
@@ -100,6 +101,7 @@ export function AddCustomerForm() {
               )}
             </div>
 
+            <Input label="Aadhar Number" {...register("aadharNumber")} />
             <Input
               label="Primary Contact *"
               {...register("contactPrimary", {

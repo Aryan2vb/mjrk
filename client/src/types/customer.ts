@@ -1,19 +1,21 @@
 export interface Customer {
-  id: string;
+  _id: string;
   customerCode: string;
   fullName: string;
-  fatherName: string;
+  fathersName: string;
   address: string;
-  contactPrimary: string;
-  contactSecondary?: string;
+  aadharNumber: string;
+  contactNumber: string;
+  contactNumber2?: string;
   facebookId?: string;
   caste?: string;
-  openingBalance: number;
-  status: 'active' | 'inactive';
-  accountType: 'savings' | 'checking';
-  registrationDate: string;
-  gender: 'male' | 'female' | 'other';
+  openingAccountBalance: number;
+  status: "Active" | "Inactive";
+  accountType: "Savings" | "Checking";
+  dateOfRegistration: string;
+  gender: "Male" | "Female" | "Other";
   dateOfBirth: string;
   note?: string;
-  profilePicture?: string;
+  createdAt: string;
+  updatedAt: string;
 }
