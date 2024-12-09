@@ -14,7 +14,7 @@ const ledgerSchema = new Schema(
       default: Date.now,
     },
     description: {
-      type: String, // E.g., "Purchase of goods", "Payment received"
+      type: String, //  "Payment received"
       required: true,
     },
     transactionType: {

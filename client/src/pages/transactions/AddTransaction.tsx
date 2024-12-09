@@ -57,93 +57,87 @@ export function AddTransactions() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8"> {/* Increased max-width and padding */}
+    <div className="max-w-3xl mx-auto">
       <button
         onClick={() => navigate("/dashboard/transactions")}
-        className="flex items-center text-gray-600 hover:text-gray-900 mb-8" {/* Increased margin */}
+        className="flex items-center text-gray-600 hover:text-gray-900 mb-4"
       >
-        <ArrowLeft className="w-6 h-6 mr-3" /> {/* Increased icon size and margin */}
+        <ArrowLeft className="w-5 h-5 mr-2" />
         Back to Transactions
       </button>
-
-      <div className="bg-white rounded-xl shadow-lg p-8"> {/* Enhanced container styling */}
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
           Add New Transaction
         </h2>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8"> {/* Increased spacing */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8"> {/* Increased gap */}
-
-            {/* Customer Code */}
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Customer Code *
               </label>
               <input
                 {...register("customerCode", { required: true })}
                 type="text"
-                className="w-full px-4 py-3 text-lg border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               {errors.customerCode && (
-                <p className="text-red-500">Customer code is required</p>
+                <p className="mt-1 text-sm text-red-500">
+                  Customer code is required
+                </p>
               )}
             </div>
-
-            {/* Description */}
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Description *
               </label>
               <textarea
                 {...register("description", { required: true })}
-                className="w-full px-4 py-3 text-lg border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                rows={2}
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                rows={1}
               />
               {errors.description && (
-                <p className="text-red-500">Description is required</p>
+                <p className="mt-1 text-sm text-red-500">
+                  Description is required
+                </p>
               )}
             </div>
-
-            {/* Transaction Type */}
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Transaction Type *
               </label>
               <select
                 {...register("transactionType", { required: true })}
-                className="w-full px-4 py-3 text-lg border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="credit">Credit</option>
                 <option value="debit">Debit</option>
               </select>
               {errors.transactionType && (
-                <p className="text-red-500">Transaction type is required</p>
+                <p className="mt-1 text-sm text-red-500">
+                  Transaction type is required
+                </p>
               )}
             </div>
-
-            {/* Amount */}
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Amount *
               </label>
               <input
                 {...register("amount", { required: true, valueAsNumber: true })}
                 type="number"
-                className="w-full px-4 py-3 text-lg border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               {errors.amount && (
-                <p className="text-red-500">Amount is required</p>
+                <p className="mt-1 text-sm text-red-500">Amount is required</p>
               )}
             </div>
-
-            {/* Payment Mode */}
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Payment Mode *
               </label>
               <select
                 {...register("paymentMode", { required: true })}
-                className="w-full px-4 py-3 text-lg border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 {paymentModeOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -152,39 +146,35 @@ export function AddTransactions() {
                 ))}
               </select>
               {errors.paymentMode && (
-                <p className="text-red-500">Payment Mode is required</p>
+                <p className="mt-1 text-sm text-red-500">
+                  Payment Mode is required
+                </p>
               )}
             </div>
-
-            {/* Reference Number */}
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Reference Number
               </label>
               <input
                 {...register("referenceNumber")}
                 type="text"
-                className="w-full px-4 py-3 text-lg border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
-
-          {serverError && (
-            <p className="mt-4 text-lg text-red-500">{serverError}</p>
-          )}
-
-          <div className="flex justify-end space-x-6 pt-8 border-t mt-8"> {/* Increased spacing */}
+          {serverError && <p className="mt-2 text-red-500">{serverError}</p>}
+          <div className="flex justify-end space-x-4 pt-6 border-t">
             <button
               type="button"
               onClick={() => reset()}
-              className="px-6 py-3 text-lg border rounded-lg text-gray-700 hover:bg-gray-50"
+              className="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50"
             >
               Reset
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-3 text-lg bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
             >
               {isSubmitting ? "Adding..." : "Add Transaction"}
             </button>

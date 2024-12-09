@@ -12,8 +12,9 @@ const createLedgerEntry = async (req, res) => {
       referenceNumber,
     } = req.body;
 
-    const customerExists = await Customer.findOne({ customerCode });
-    if (!customerExists) {
+    // Find the customer
+    const customer = await Customer.findOne({ customerCode });
+    if (!customer) {
       return res.status(404).json({ message: "Customer not found" });
     }
 
@@ -22,8 +23,9 @@ const createLedgerEntry = async (req, res) => {
     });
     let balanceAfterTransaction = lastLedgerEntry
       ? lastLedgerEntry.balanceAfterTransaction
-      : customerExists.openingAccountBalance;
+      : customer.openingAccountBalance;
 
+    // Calculate new balance
     if (transactionType === "credit") {
       balanceAfterTransaction -= amount;
     } else if (transactionType === "debit") {
@@ -32,6 +34,7 @@ const createLedgerEntry = async (req, res) => {
       return res.status(400).json({ message: "Invalid transaction type" });
     }
 
+    // Create new ledger entry
     const newLedgerEntry = new Ledger({
       customerCode,
       description,
@@ -42,11 +45,22 @@ const createLedgerEntry = async (req, res) => {
       referenceNumber,
     });
 
+    // Save the ledger entry
     await newLedgerEntry.save();
 
+    // Update customer's opening balance
+    await Customer.findOneAndUpdate(
+      { customerCode },
+      { openingAccountBalance: balanceAfterTransaction },
+      { new: true },
+    );
+
     return res.status(201).json({
-      message: "Ledger entry created successfully",
-      data: newLedgerEntry,
+      message: "Ledger entry created successfully and customer balance updated",
+      data: {
+        ledgerEntry: newLedgerEntry,
+        updatedBalance: balanceAfterTransaction,
+      },
     });
   } catch (err) {
     console.error(err);
