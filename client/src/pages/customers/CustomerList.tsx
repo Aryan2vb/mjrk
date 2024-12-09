@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Plus, Search, Eye, Phone, MapPin, Badge } from "lucide-react";
 import toast from "react-hot-toast";
-import { Customer } from "../types/customer";
+import { Customer } from "../../types/customer";
 import { CustomerDetails } from "./CustomerDetails";
 
 export function CustomerList() {
