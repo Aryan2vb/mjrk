@@ -109,4 +109,19 @@ const getLedgerEntries = async (req, res) => {
   }
 };
 
-module.exports = { createLedgerEntry, getLedgerEntries };
+const deleteLedgerById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedLedger = await Ledger.findByIdAndDelete(id);
+    if (deletedLedger) {
+      res.status(200).json({ message: "Ledger deleted successfully" });
+    } else {
+      res.status(404).json({ error: "Ledger not found" });
+    }
+  } catch (err) {
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports = { createLedgerEntry, getLedgerEntries, deleteLedgerById };
