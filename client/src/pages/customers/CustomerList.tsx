@@ -191,9 +191,12 @@ export function CustomerList() {
               bg-white text-gray-700 text-sm"
           >
             <option value="fullName">Search by Name</option>
+            <option value="fathersName">Search by Father Name</option>
             <option value="customerCode">Search by Code</option>
             <option value="contactNumber">Search by Phone</option>
             <option value="address">Search by Village</option>
+            <option value="caste">Search by Caste</option>
+            <option value="aadharNumber">Search by Aadhar Number</option>
           </select>
         </div>
 
