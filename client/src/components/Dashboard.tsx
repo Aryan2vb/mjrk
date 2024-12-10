@@ -1,5 +1,5 @@
 // import { useState } from "react";
-// import { Route, Routes } from "react-router-dom";
+// import { Route, Routes, useLocation } from "react-router-dom";
 // import { Menu, X } from "lucide-react";
 // import clsx from "clsx";
 // import { Sidebar } from "./layout/sidebar";
@@ -18,39 +18,57 @@
 
 // export function Dashboard() {
 //   const [isOpen, setIsOpen] = useState(false);
+//   const location = useLocation();
 
 //   return (
-//     <div className="min-h-screen bg-gray-100">
-//       {/* Mobile Header */}
-//       <div className="lg:hidden bg-white p-4 flex items-center justify-between shadow-sm">
-//         <button
-//           onClick={() => setIsOpen(!isOpen)}
-//           className="p-2 rounded-lg hover:bg-gray-100"
-//         >
-//           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-//         </button>
-//         <h1 className="text-xl font-bold">Dashboard</h1>
-//       </div>
+//     <div className="flex h-screen overflow-hidden">
+//       {/* Sidebar */}
+//       <Sidebar
+//         isOpen={isOpen}
+//         onClose={() => setIsOpen(false)}
+//         className={clsx(
+//           "w-64 lg:w-72 bg-gray-800 text-white shadow-lg", //Default Styles
+//           // window.innerWidth < 768 ? "w-0" : null, //Hide on Mobile
+//           isOpen && window.innerWidth < 768 ? "w-64" : null, //Show on Mobile when Open
+//         )}
+//       />
 
-//       <div className="flex">
-//         <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
-
-//         {/* Main Content */}
-//         <main
-//           className={clsx(
-//             "flex-1 p-4 lg:p-8",
-//             "transition-all duration-300 ease-in-out",
+//       {/* Main Content Area */}
+//       <div className="flex-1 flex flex-col">
+//         {/* Mobile Header (Only shows on smaller screens and specific routes) */}
+//         {window.innerWidth < 768 &&
+//           [
+//             "/",
+//             "/products",
+//             "/statistics",
+//             "/history",
+//             "/reports",
+//             "/settings",
+//             "/help",
+//             "/bulkmessage",
+//           ].includes(location.pathname) && (
+//             <div className="bg-gray-100 p-4 flex items-center justify-between shadow-sm">
+//               <button
+//                 onClick={() => setIsOpen(!isOpen)}
+//                 className="p-2 rounded-lg hover:bg-gray-200"
+//               >
+//                 {isOpen ? (
+//                   <X className="h-6 w-6" />
+//                 ) : (
+//                   <Menu className="h-6 w-6" />
+//                 )}
+//               </button>
+//               <h1 className="text-xl font-bold">Dashboard</h1>
+//             </div>
 //           )}
-//         >
-//           {/* Overlay for mobile */}
-//           {isOpen && (
-//             <div
-//               className="fixed inset-0 bg-black bg-opacity-50 lg:hidden z-30"
-//               onClick={() => setIsOpen(false)}
-//             />
-//           )}
 
-//           <div className="max-w-7xl mx-auto">
+//         {/* Main Content (Routes) */}
+//         <main className="flex-1 overflow-y-auto bg-gray-100">
+//           {" "}
+//           {/* Added overflow-y-auto for scrolling */}
+//           <div className="max-w-7xl mx-auto p-4 lg:p-8">
+//             {" "}
+//             {/* Adjust padding as needed */}
 //             <Routes>
 //               <Route path="/" element={<DashboardHome />} />
 //               <Route path="/customers" element={<CustomerList />} />
@@ -72,7 +90,7 @@
 //   );
 // }
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import clsx from "clsx";
@@ -92,57 +110,74 @@ import { AddTransactions } from "../pages/transactions/AddTransaction.tsx";
 
 export function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const location = useLocation();
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+      if (window.innerWidth >= 1024) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Close sidebar when route changes on mobile
+  useEffect(() => {
+    if (isMobile) {
+      setIsOpen(false);
+    }
+  }, [location, isMobile]);
+
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      <Sidebar
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        className={clsx(
-          "w-64 lg:w-72 bg-gray-800 text-white shadow-lg", //Default Styles
-          window.innerWidth < 768 ? "w-0" : null, //Hide on Mobile
-          isOpen && window.innerWidth < 768 ? "w-64" : null, //Show on Mobile when Open
-        )}
-      />
+    <div className="min-h-screen bg-gray-100">
+      {/* Mobile Header */}
+      {isMobile && (
+        <header className="fixed top-0 left-0 right-0 bg-white z-20 px-4 py-3 flex items-center justify-between shadow-sm">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+          <h1 className="text-xl font-semibold">Dashboard</h1>
+          <div className="w-8" /> {/* Spacer for balance */}
+        </header>
+      )}
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Mobile Header (Only shows on smaller screens and specific routes) */}
-        {window.innerWidth < 768 &&
-          [
-            "/",
-            "/products",
-            "/statistics",
-            "/history",
-            "/reports",
-            "/settings",
-            "/help",
-            "/bulkmessage",
-          ].includes(location.pathname) && (
-            <div className="bg-gray-100 p-4 flex items-center justify-between shadow-sm">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-lg hover:bg-gray-200"
-              >
-                {isOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </button>
-              <h1 className="text-xl font-bold">Dashboard</h1>
-            </div>
+      <div className="flex pt-[60px] lg:pt-0">
+        {" "}
+        {/* Add top padding for mobile header */}
+        {/* Sidebar */}
+        <aside
+          className={clsx(
+            "fixed lg:static h-[calc(100vh-60px)] lg:h-screen",
+            "transition-all duration-300 ease-in-out z-30",
+            isMobile ? (isOpen ? "left-0" : "-left-64") : "left-0 w-64",
+            "bg-gray-800",
           )}
-
-        {/* Main Content (Routes) */}
-        <main className="flex-1 overflow-y-auto bg-gray-100">
-          {" "}
-          {/* Added overflow-y-auto for scrolling */}
+        >
+          <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        </aside>
+        {/* Overlay */}
+        {isMobile && isOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-20"
+            onClick={() => setIsOpen(false)}
+          />
+        )}
+        {/* Main Content */}
+        <main
+          className={clsx(
+            "flex-1 min-h-screen",
+            "transition-all duration-300 ease-in-out",
+            "overflow-x-hidden",
+          )}
+        >
           <div className="max-w-7xl mx-auto p-4 lg:p-8">
-            {" "}
-            {/* Adjust padding as needed */}
             <Routes>
               <Route path="/" element={<DashboardHome />} />
               <Route path="/customers" element={<CustomerList />} />

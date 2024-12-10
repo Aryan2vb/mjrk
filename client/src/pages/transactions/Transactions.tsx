@@ -4,6 +4,7 @@ import axios from "axios";
 import { Plus, Search } from "lucide-react";
 import toast from "react-hot-toast";
 import { LedgerEntry } from "../../types/transactions"; // Assuming you have this type
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 export const Transactions = () => {
   const [transactions, setTransactions] = useState<LedgerEntry[]>([]);
@@ -70,9 +71,7 @@ export const Transactions = () => {
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-        </div>
+        <LoadingSpinner />
       ) : filteredTransactions.length === 0 ? (
         <div className="text-center py-12">No transactions found.</div>
       ) : (

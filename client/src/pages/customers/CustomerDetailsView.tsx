@@ -1,5 +1,5 @@
 import React from "react";
-import { DetailItem } from "./DetailItem";
+import { DetailItem } from "./components/DetailItem";
 import { Customer } from "../../types/customer";
 
 export const CustomerDetailsView = ({ customer }: { customer: Customer }) => {
@@ -9,6 +9,7 @@ export const CustomerDetailsView = ({ customer }: { customer: Customer }) => {
       <DetailItem label="Full Name" value={customer.fullName} />
       <DetailItem label="Father's Name" value={customer.fathersName} />
       <DetailItem label="Address" value={customer.address} />
+      <DetailItem label="Aadhar Number" value={customer.aadharNumber} />
       <DetailItem label="Primary Contact" value={customer.contactNumber} />
       <DetailItem
         label="Secondary Contact"
