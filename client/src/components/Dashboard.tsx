@@ -133,10 +133,10 @@ export function Dashboard() {
   }, [location, isMobile]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Mobile Header */}
       {isMobile && (
-        <header className="fixed top-0 left-0 right-0 bg-white z-20 px-4 py-3 flex items-center justify-between shadow-sm">
+        <header className="ffixed top-0 left-0 right-0 bg-white z-20 px-4 py-3 flex items-center justify-between shadow-sm">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
@@ -148,13 +148,14 @@ export function Dashboard() {
         </header>
       )}
 
-      <div className="flex pt-[60px] lg:pt-0">
+      <div className="flex flex-1 pt-[60px] lg:pt-0">
         {" "}
         {/* Add top padding for mobile header */}
         {/* Sidebar */}
         <aside
           className={clsx(
-            "fixed lg:static h-[calc(100vh-60px)] lg:h-screen",
+            "fixed lg:sticky top-[60px] lg:top-0",
+            "h-[calc(100vh-60px)] lg:h-screen",
             "transition-all duration-300 ease-in-out z-30",
             isMobile ? (isOpen ? "left-0" : "-left-64") : "left-0 w-64",
             "bg-gray-800",
