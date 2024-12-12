@@ -200,6 +200,30 @@ export function LoginForm() {
                 Contact administrator
               </a>
             </div>
+            <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="text-center">
+                <h3 className="text-sm font-medium text-gray-700 mb-2">
+                  Demo Credentials
+                </h3>
+                <div className="space-y-2 text-sm text-gray-600">
+                  <div className="flex items-center justify-between p-2 bg-white rounded border border-gray-100">
+                    <span>Email:</span>
+                    <code className="px-2 py-1 bg-gray-50 rounded text-blue-600">
+                      mjrk@gmail.com
+                    </code>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-white rounded border border-gray-100">
+                    <span>Password:</span>
+                    <code className="px-2 py-1 bg-gray-50 rounded text-blue-600">
+                      manu
+                    </code>
+                  </div>
+                </div>
+                <p className="mt-2 text-xs text-gray-500">
+                  Use these credentials to explore the demo version
+                </p>
+              </div>
+            </div>
           </form>
         </div>
       </div>
