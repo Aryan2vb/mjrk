@@ -1,6 +1,3 @@
-// // Placeholder components
-// export const DashboardHome = () => <div>Dashboard Home</div>;
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import {
@@ -8,29 +5,73 @@ import {
   ArrowDownCircle,
   Users,
   ArrowRight,
-  TrendingUp,
   Calendar,
-  DollarSign,
+  Wallet,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { LoadingSpinner } from "../components/LoadingSpinner";
+
+interface DashboardStats {
+  totalCustomers: number;
+  totalCredit: number;
+  totalDebit: number;
+  recentTransactions: Array<{
+    _id: string;
+    customerCode: string;
+    description: string;
+    transactionType: "credit" | "debit";
+    amount: number;
+    transactionDate: string;
+  }>;
+}
 
 export const DashboardHome = () => {
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<DashboardStats>({
     totalCustomers: 0,
     totalCredit: 0,
     totalDebit: 0,
     recentTransactions: [],
-    activeCustomers: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchDashboardStats = async () => {
+    const fetchStats = async () => {
       try {
-        const response = await axios.get(
-          "https://mjrk.vercel.app/api/dashboard/stats",
+        // Fetch customers count
+        const customersResponse = await axios.get(
+          "https://mjrk.vercel.app/api/getallcustomers",
         );
-        setStats(response.data);
+        const totalCustomers = customersResponse.data.length;
+
+        // Fetch all transactions
+        const transactionsResponse = await axios.get(
+          "https://mjrk.vercel.app/api/getledgers",
+        );
+        const transactions = transactionsResponse.data.data;
+
+        // Calculate totals
+        const totalCredit = transactions
+          .filter((t: any) => t.transactionType === "credit")
+          .reduce((sum: number, t: any) => sum + t.amount, 0);
+
+        const totalDebit = transactions
+          .filter((t: any) => t.transactionType === "debit")
+          .reduce((sum: number, t: any) => sum + t.amount, 0);
+
+        // Get recent transactions (last 5)
+        const recentTransactions = transactions
+          .sort(
+            (a: any, b: any) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          )
+          .slice(0, 5);
+
+        setStats({
+          totalCustomers,
+          totalCredit,
+          totalDebit,
+          recentTransactions,
+        });
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
       } finally {
@@ -38,25 +79,22 @@ export const DashboardHome = () => {
       }
     };
 
-    fetchDashboardStats();
+    fetchStats();
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
     <div className="p-6 space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
         <div className="flex items-center space-x-2 text-sm text-gray-600">
           <Calendar className="w-4 h-4" />
           <span>
-            {new Date().toLocaleDateString("en-US", {
+            {new Date().toLocaleDateString("en-IN", {
               weekday: "long",
               year: "numeric",
               month: "long",
@@ -68,7 +106,7 @@ export const DashboardHome = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Credit Card */}
+        {/* Total Credit */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-green-100">
           <div className="flex items-center justify-between">
             <div>
@@ -81,13 +119,9 @@ export const DashboardHome = () => {
               <ArrowUpCircle className="w-6 h-6 text-green-500" />
             </div>
           </div>
-          <div className="mt-4 flex items-center text-sm text-green-600">
-            <TrendingUp className="w-4 h-4 mr-1" />
-            <span>4.5% increase</span>
-          </div>
         </div>
 
-        {/* Total Debit Card */}
+        {/* Total Debit */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-red-100">
           <div className="flex items-center justify-between">
             <div>
@@ -100,13 +134,9 @@ export const DashboardHome = () => {
               <ArrowDownCircle className="w-6 h-6 text-red-500" />
             </div>
           </div>
-          <div className="mt-4 flex items-center text-sm text-red-600">
-            <TrendingUp className="w-4 h-4 mr-1" />
-            <span>2.1% increase</span>
-          </div>
         </div>
 
-        {/* Total Customers Card */}
+        {/* Total Customers */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-blue-100">
           <div className="flex items-center justify-between">
             <div>
@@ -114,59 +144,45 @@ export const DashboardHome = () => {
                 Total Customers
               </p>
               <h3 className="text-2xl font-bold text-gray-900 mt-1">
-                {stats.totalCustomers.toLocaleString()}
+                {stats.totalCustomers}
               </h3>
             </div>
             <div className="bg-blue-50 p-3 rounded-full">
               <Users className="w-6 h-6 text-blue-500" />
             </div>
           </div>
-          <div className="mt-4 flex items-center text-sm text-blue-600">
-            <Link
-              to="/dashboard/customers"
-              className="flex items-center hover:underline"
-            >
-              View all customers <ArrowRight className="w-4 h-4 ml-1" />
-            </Link>
-          </div>
         </div>
 
-        {/* Net Balance Card */}
+        {/* Balance */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-purple-100">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Net Balance</p>
+              <p className="text-sm font-medium text-gray-600">
+                Current Balance
+              </p>
               <h3 className="text-2xl font-bold text-gray-900 mt-1">
                 ₹
-                {(stats.totalCredit - stats.totalDebit).toLocaleString("en-IN")}
+                {(stats.totalDebit - stats.totalCredit).toLocaleString("en-IN")}
               </h3>
             </div>
             <div className="bg-purple-50 p-3 rounded-full">
-              <DollarSign className="w-6 h-6 text-purple-500" />
+              <Wallet className="w-6 h-6 text-purple-500" />
             </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm text-purple-600">
-            <Link
-              to="/dashboard/transactions"
-              className="flex items-center hover:underline"
-            >
-              View transactions <ArrowRight className="w-4 h-4 ml-1" />
-            </Link>
           </div>
         </div>
       </div>
 
       {/* Recent Transactions */}
-      <div className="bg-white rounded-xl shadow-sm p-6 mt-6">
+      <div className="bg-white rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold text-gray-900">
             Recent Transactions
           </h2>
           <Link
             to="/dashboard/transactions"
-            className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+            className="text-sm text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
           >
-            View all
+            View all <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -174,37 +190,38 @@ export const DashboardHome = () => {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Customer
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Customer Code
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  Description
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Type
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Amount
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Date
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {stats.recentTransactions.map((transaction: any) => (
-                <tr key={transaction._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {transaction.customerName}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {transaction.customerCode}
-                    </div>
+            <tbody className="divide-y divide-gray-200">
+              {stats.recentTransactions.map((transaction) => (
+                <tr key={transaction._id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {transaction.customerCode}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {transaction.description}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                         transaction.transactionType === "credit"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-green-100 text-green-800"
                       }`}
                     >
                       {transaction.transactionType}
@@ -214,7 +231,9 @@ export const DashboardHome = () => {
                     ₹{transaction.amount.toLocaleString("en-IN")}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(transaction.transactionDate).toLocaleDateString()}
+                    {new Date(transaction.transactionDate).toLocaleDateString(
+                      "en-IN",
+                    )}
                   </td>
                 </tr>
               ))}
