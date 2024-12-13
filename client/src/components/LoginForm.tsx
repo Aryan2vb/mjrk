@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPassword, setCopiedPassword] = useState(false);
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
@@ -27,8 +30,30 @@ export function LoginForm() {
       navigate("/dashboard");
     } catch (err) {
       setError("Invalid email or password.");
+    } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDemoLogin = async () => {
+    setError("");
+    setIsLoading(true);
+    try {
+      await login("mjrk@gmail.com", "manu");
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Demo login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCopy = (
+    text: string,
+    setCopiedState: (value: boolean) => void,
+  ) => {
+    setCopiedState(true);
+    setTimeout(() => setCopiedState(false), 1500);
   };
 
   return (
@@ -50,7 +75,6 @@ export function LoginForm() {
               Access your financial dashboard to track transactions, manage
               customers, and grow your business efficiently.
             </p>
-            {/* Stats - Hidden on mobile, shown on tablet and up */}
             <div className="hidden md:flex space-x-6 lg:space-x-12">
               <div className="flex flex-col">
                 <span className="text-3xl lg:text-4xl font-bold">1000+</span>
@@ -78,7 +102,6 @@ export function LoginForm() {
       {/* Right Side - Login Form */}
       <div className="w-full md:w-[45%] flex items-center justify-center p-6 md:p-8 lg:p-12 bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="w-full max-w-md space-y-8">
-          {/* Logo and Heading */}
           <div className="text-center">
             <div className="inline-flex items-center justify-center w-16 md:w-20 h-16 md:h-20 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 shadow-lg mb-6 md:mb-8">
               <LogIn className="w-8 md:w-10 h-8 md:h-10 text-white transform -rotate-12 transition-transform hover:rotate-0 duration-300" />
@@ -91,7 +114,6 @@ export function LoginForm() {
             </p>
           </div>
 
-          {/* Login Form */}
           <form onSubmit={handleSubmit} className="mt-8 space-y-6" noValidate>
             <div className="space-y-5">
               <div>
@@ -104,9 +126,7 @@ export function LoginForm() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl
-                      focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors
-                      bg-white/70 backdrop-blur-sm text-base"
+                    className="block w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white/70 backdrop-blur-sm text-base"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -122,9 +142,7 @@ export function LoginForm() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl
-                      focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors
-                      bg-white/70 backdrop-blur-sm text-base"
+                    className="block w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white/70 backdrop-blur-sm text-base"
                     placeholder="Enter your password"
                   />
                 </div>
@@ -175,11 +193,7 @@ export function LoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl
-                shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600
-                hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2
-                focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300
-                transform hover:scale-[1.02]"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02]"
             >
               {isLoading ? (
                 <div className="flex items-center space-x-2">
@@ -200,25 +214,58 @@ export function LoginForm() {
                 Contact administrator
               </a>
             </div>
+
             <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
               <div className="text-center">
                 <h3 className="text-sm font-medium text-gray-700 mb-2">
                   Demo Credentials
                 </h3>
                 <div className="space-y-2 text-sm text-gray-600">
-                  <div className="flex items-center justify-between p-2 bg-white rounded border border-gray-100">
+                  <div className="flex items-center justify-between p-2 bg-white rounded border border-gray-100 cursor-pointer hover:bg-gray-100">
                     <span>Email:</span>
-                    <code className="px-2 py-1 bg-gray-50 rounded text-blue-600">
-                      mjrk@gmail.com
-                    </code>
+                    <CopyToClipboard
+                      text="mjrk@gmail.com"
+                      onCopy={() =>
+                        handleCopy("mjrk@gmail.com", setCopiedEmail)
+                      }
+                    >
+                      <span
+                        className={`px-2 py-1 rounded text-blue-600 ${copiedEmail ? "bg-green-100 text-green-700" : ""}`}
+                      >
+                        mjrk@gmail.com{" "}
+                        {copiedEmail && (
+                          <span className="ml-1 text-green-600 text-xs">
+                            Copied!
+                          </span>
+                        )}
+                      </span>
+                    </CopyToClipboard>
                   </div>
-                  <div className="flex items-center justify-between p-2 bg-white rounded border border-gray-100">
+                  <div className="flex items-center justify-between p-2 bg-white rounded border border-gray-100 cursor-pointer hover:bg-gray-100">
                     <span>Password:</span>
-                    <code className="px-2 py-1 bg-gray-50 rounded text-blue-600">
-                      manu
-                    </code>
+                    <CopyToClipboard
+                      text="manu"
+                      onCopy={() => handleCopy("manu", setCopiedPassword)}
+                    >
+                      <span
+                        className={`px-2 py-1 rounded text-blue-600 ${copiedPassword ? "bg-green-100 text-green-700" : ""}`}
+                      >
+                        manu{" "}
+                        {copiedPassword && (
+                          <span className="ml-1 text-green-600 text-xs">
+                            Copied!
+                          </span>
+                        )}
+                      </span>
+                    </CopyToClipboard>
                   </div>
                 </div>
+                <button
+                  onClick={handleDemoLogin}
+                  className="mt-2 w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline"
+                >
+                  Login with Demo Credentials
+                </button>
                 <p className="mt-2 text-xs text-gray-500">
                   Use these credentials to explore the demo version
                 </p>
