@@ -94,6 +94,7 @@ export const CustomerDetailsForm = ({
           label="Opening Balance"
           type="number"
           {...register("openingAccountBalance")}
+          disabled
         />
 
         <div>

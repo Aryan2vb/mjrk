@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const customerRoutes = require("./routes/customerRoutes");
 const ledgerRoutes = require("./routes/ledgerRoutes");
-
+// const dashboardRoutes =
 dotenv.config();
 
 const app = express();
@@ -34,7 +34,7 @@ app.get("/hello", (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

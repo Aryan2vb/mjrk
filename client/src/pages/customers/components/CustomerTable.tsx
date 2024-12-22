@@ -18,6 +18,9 @@ export function CustomerTable({
             Customer
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            Caste
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
             Contact & Address
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
@@ -40,6 +43,14 @@ export function CustomerTable({
               </div>
               <div className="text-sm text-gray-500">
                 #{customer.customerCode}
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              <div className="text-sm font-medium text-gray-900">
+                {customer.caste}
+              </div>
+              <div className="text-sm text-gray-500">
+                {customer.fathersName}
               </div>
             </td>
             <td className="px-6 py-4">

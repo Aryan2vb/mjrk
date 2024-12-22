@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowLeft, Trash2, Save } from "lucide-react";
+import { ArrowLeft, Trash2, Save, ArrowRightLeft } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -44,6 +44,13 @@ export const CustomerDetailsHeader = ({
         Back to Customers
       </button>
       <div className="flex items-center space-x-4">
+        <button
+          onClick={isEditing ? onCancel : onEdit}
+          className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          <ArrowRightLeft className="w-4 h-4 mr-2" />
+          {"Add Transaction"}
+        </button>
         <button
           onClick={isEditing ? onCancel : onEdit}
           className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
