@@ -15,7 +15,7 @@ import { Help } from "../pages/Help.tsx";
 import { Reports } from "../pages/Reports.tsx";
 import { Transactions } from "../pages/transactions/Transactions.tsx";
 import { AddTransactions } from "../pages/transactions/AddTransaction.tsx";
-
+import { DarkModeToggle } from "./DarkModeToggle";
 export function Dashboard() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);

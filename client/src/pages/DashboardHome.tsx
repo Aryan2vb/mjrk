@@ -9,7 +9,6 @@ import {
   Wallet,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { LoadingSpinner } from "../components/LoadingSpinner";
 
 interface DashboardStats {
   totalCustomers: number;
@@ -22,6 +21,7 @@ interface DashboardStats {
     transactionType: "credit" | "debit";
     amount: number;
     transactionDate: string;
+    createdAt: string;
   }>;
 }
 
@@ -33,23 +33,21 @@ export const DashboardHome = () => {
     recentTransactions: [],
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Fetch customers count
         const customersResponse = await axios.get(
           "https://mjrk.vercel.app/api/getallcustomers",
         );
         const totalCustomers = customersResponse.data.length;
 
-        // Fetch all transactions
         const transactionsResponse = await axios.get(
           "https://mjrk.vercel.app/api/getledgers",
         );
         const transactions = transactionsResponse.data.data;
 
-        // Calculate totals
         const totalCredit = transactions
           .filter((t: any) => t.transactionType === "credit")
           .reduce((sum: number, t: any) => sum + t.amount, 0);
@@ -58,7 +56,6 @@ export const DashboardHome = () => {
           .filter((t: any) => t.transactionType === "debit")
           .reduce((sum: number, t: any) => sum + t.amount, 0);
 
-        // Get recent transactions (last 5)
         const recentTransactions = transactions
           .sort(
             (a: any, b: any) =>
@@ -72,7 +69,8 @@ export const DashboardHome = () => {
           totalDebit,
           recentTransactions,
         });
-      } catch (error) {
+      } catch (error: any) {
+        setError(error.message);
         console.error("Error fetching dashboard stats:", error);
       } finally {
         setLoading(false);
@@ -82,13 +80,8 @@ export const DashboardHome = () => {
     fetchStats();
   }, []);
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <div className="p-6 space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
         <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -104,10 +97,20 @@ export const DashboardHome = () => {
         </div>
       </div>
 
-      {/* Stats Grid */}
+      {error && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong className="font-bold">Error!</strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Credit */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-green-100">
+        <div
+          className={`bg-white rounded-xl shadow-sm p-6 border border-green-100 ${loading ? "opacity-50" : ""}`}
+        >
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Credit</p>
@@ -121,8 +124,9 @@ export const DashboardHome = () => {
           </div>
         </div>
 
-        {/* Total Debit */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-red-100">
+        <div
+          className={`bg-white rounded-xl shadow-sm p-6 border border-red-100 ${loading ? "opacity-50" : ""}`}
+        >
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">Total Debit</p>
@@ -136,8 +140,9 @@ export const DashboardHome = () => {
           </div>
         </div>
 
-        {/* Total Customers */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-blue-100">
+        <div
+          className={`bg-white rounded-xl shadow-sm p-6 border border-blue-100 ${loading ? "opacity-50" : ""}`}
+        >
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">
@@ -153,8 +158,9 @@ export const DashboardHome = () => {
           </div>
         </div>
 
-        {/* Balance */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-purple-100">
+        <div
+          className={`bg-white rounded-xl shadow-sm p-6 border border-purple-100 ${loading ? "opacity-50" : ""}`}
+        >
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-600">
@@ -172,8 +178,9 @@ export const DashboardHome = () => {
         </div>
       </div>
 
-      {/* Recent Transactions */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div
+        className={`bg-white rounded-xl shadow-sm p-6 ${loading ? "opacity-50" : ""}`}
+      >
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold text-gray-900">
             Recent Transactions
@@ -188,7 +195,7 @@ export const DashboardHome = () => {
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                   Customer Code
@@ -207,7 +214,7 @@ export const DashboardHome = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody>
               {stats.recentTransactions.map((transaction) => (
                 <tr key={transaction._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

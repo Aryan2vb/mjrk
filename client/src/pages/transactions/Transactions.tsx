@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { LedgerEntry } from "../../types/transactions";
 import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { ExportData } from "../../components/ExportData";
-
+import { useAuthStore } from "../../store/useAuthStore";
 type SortKey = keyof LedgerEntry;
 type SortOrder = "asc" | "desc";
 
@@ -25,7 +25,16 @@ export const Transactions = () => {
   const navigate = useNavigate();
   const exportDropdownRef = useRef<HTMLDivElement>(null);
   const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
+  const { customers, fetchCustomersAndTransactions } = useAuthStore(
+    (state) => state,
+  );
 
+  useEffect(() => {
+    if (!customers) {
+      //Only fetch if data isn't already present
+      fetchCustomersAndTransactions();
+    }
+  }, [customers, fetchCustomersAndTransactions]);
   useEffect(() => {
     fetchTransactions();
 
