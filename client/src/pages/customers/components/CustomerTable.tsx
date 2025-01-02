@@ -15,8 +15,12 @@ export function CustomerTable({
       <thead className="bg-gray-50">
         <tr>
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+            Code
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
             Customer
           </th>
+
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
             Caste
           </th>
@@ -26,9 +30,9 @@ export function CustomerTable({
           <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
             Balance
           </th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+          {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
             Status
-          </th>
+          </th> */}
           <th className="relative px-6 py-3">
             <span className="sr-only">Actions</span>
           </th>
@@ -38,19 +42,23 @@ export function CustomerTable({
         {customers.map((customer) => (
           <tr key={customer._id} className="hover:bg-gray-50">
             <td className="px-6 py-4">
+              <div className="text-sm font-medium text-black-500">
+                {customer.customerCode}
+              </div>
+            </td>
+
+            <td className="px-6 py-4">
               <div className="text-sm font-medium text-gray-900">
                 {customer.fullName}
               </div>
               <div className="text-sm text-gray-500">
-                #{customer.customerCode}
+                {customer.fathersName}
               </div>
             </td>
+
             <td className="px-6 py-4">
               <div className="text-sm font-medium text-gray-900">
                 {customer.caste}
-              </div>
-              <div className="text-sm text-gray-500">
-                {customer.fathersName}
               </div>
             </td>
             <td className="px-6 py-4">
@@ -64,7 +72,7 @@ export function CustomerTable({
                 ₹{customer.openingAccountBalance.toLocaleString("en-IN")}
               </div>
             </td>
-            <td className="px-6 py-4">
+            {/* <td className="px-6 py-4">
               <span
                 className={`px-2 py-1 text-xs rounded-full ${
                   customer.status === "Active"
@@ -74,7 +82,7 @@ export function CustomerTable({
               >
                 {customer.status}
               </span>
-            </td>
+            </td> */}
             <td className="px-6 py-4 text-right">
               <button
                 onClick={() => onCustomerSelect(customer)}
