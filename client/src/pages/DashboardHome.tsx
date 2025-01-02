@@ -168,7 +168,7 @@ export const DashboardHome = () => {
               </p>
               <h3 className="text-2xl font-bold text-gray-900 mt-1">
                 ₹
-                {(stats.totalDebit - stats.totalCredit).toLocaleString("en-IN")}
+                {(stats.totalCredit - stats.totalDebit).toLocaleString("en-IN")}
               </h3>
             </div>
             <div className="bg-purple-50 p-3 rounded-full">
