@@ -215,7 +215,7 @@ export function LoginForm() {
               </a>
             </div>
 
-            <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+            {/* <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
               <div className="text-center">
                 <h3 className="text-sm font-medium text-gray-700 mb-2">
                   Demo Credentials
@@ -270,7 +270,7 @@ export function LoginForm() {
                   Use these credentials to explore the demo version
                 </p>
               </div>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>
