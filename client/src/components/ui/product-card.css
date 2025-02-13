@@ -1,0 +1,23 @@
+.product-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 300px; /* Adjust width as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the image */
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-info {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.product-info p {
+    margin-bottom: 5px;
+}
