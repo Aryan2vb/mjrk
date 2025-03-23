@@ -93,7 +93,6 @@ exports.getLendingsByCustomerCode = async (req, res) => {
   try {
     const { customerCode } = req.params;
     const lendings = await Lending.find({ customerCode })
-      .populate('customerCode', 'name phone');
     
     if (!lendings.length) {
       return res.status(404).json({ message: 'No lendings found for this customer' });

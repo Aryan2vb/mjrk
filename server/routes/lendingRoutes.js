@@ -8,7 +8,6 @@ const {
   deleteLending,
   getLendingsByCustomerCode,
 } = require('../controllers/lendingController');
-const { get } = require('mongoose');
 
 // Routes
 router.get('/', getAllLendings);
