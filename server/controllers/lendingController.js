@@ -87,3 +87,20 @@ exports.deleteLending = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// @desc Get lendings by customer code
+exports.getLendingsByCustomerCode = async (req, res) => {
+  try {
+    const { customerCode } = req.params;
+    const lendings = await Lending.find({ customerCode })
+      .populate('customerCode', 'name phone');
+    
+    if (!lendings.length) {
+      return res.status(404).json({ message: 'No lendings found for this customer' });
+    }
+    
+    res.status(200).json(lendings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
