@@ -46,6 +46,8 @@ const cors = require("cors");
 const customerRoutes = require("./routes/customerRoutes");
 const ledgerRoutes = require("./routes/ledgerRoutes");
 const dailyRoutes = require('./routes/dailyRoutes');
+const lendingRoutes = require('./routes/lendingRoutes');
+
 dotenv.config();
 
 const app = express();
@@ -67,6 +69,8 @@ mongoose
 app.use("/api", customerRoutes);
 app.use("/api", ledgerRoutes);
 app.use('/api/daily', dailyRoutes);
+app.use('/api/lendings', lendingRoutes);
+
 
 // Default routes
 app.get("/", (req, res) => {
